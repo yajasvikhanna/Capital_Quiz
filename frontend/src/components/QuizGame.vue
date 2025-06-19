@@ -75,7 +75,7 @@
   </div>
 </template>
 
-<script>
+<!-- <script>
 import axios from 'axios'
 
 export default {
@@ -164,7 +164,102 @@ export default {
     }
   }
 }
+</script> -->
+
+<script>
+import axios from 'axios'
+// import { API_ENDPOINTS } from '@/config/api.js'  // Import your api.js
+import { API_ENDPOINTS } from '../config/api.js'
+
+
+export default {
+  name: 'QuizGame',
+  data() {
+    return {
+      currentQuestion: '',
+      currentCountry: null,
+      userAnswer: '',
+      showResult: false,
+      lastResult: null,
+      loading: false,
+      checking: false,
+      error: null,
+      questionCount: 0,
+      stats: {
+        correct: 0,
+        incorrect: 0
+      }
+    }
+  },
+  computed: {
+    accuracy() {
+      const total = this.stats.correct + this.stats.incorrect
+      if (total === 0) return 0
+      return Math.round((this.stats.correct / total) * 100)
+    }
+  },
+  mounted() {
+    this.loadNewQuestion()
+  },
+  methods: {
+    async loadNewQuestion() {
+      this.loading = true
+      this.error = null
+      this.showResult = false
+      this.userAnswer = ''
+      
+      try {
+        const response = await axios.get(API_ENDPOINTS.QUESTION)  // ✅ use API_ENDPOINTS
+        this.currentQuestion = response.data.question
+        this.currentCountry = response.data.country
+        this.questionCount++
+        
+        // Focus on input after loading
+        this.$nextTick(() => {
+          if (this.$refs.answerInput) {
+            this.$refs.answerInput.focus()
+          }
+        })
+      } catch (error) {
+        console.error('Error loading question:', error)
+        this.error = 'Failed to load question. Please try again.'
+      } finally {
+        this.loading = false
+      }
+    },
+    
+    async checkAnswer() {
+      if (!this.userAnswer.trim() || !this.currentCountry) return
+      
+      this.checking = true
+      
+      try {
+        const response = await axios.post(API_ENDPOINTS.CHECK_ANSWER, {   // ✅ use API_ENDPOINTS
+          country_id: this.currentCountry.id,
+          user_answer: this.userAnswer.trim()
+        })
+        
+        this.lastResult = response.data
+        this.showResult = true
+        
+        // Update stats
+        if (response.data.is_correct) {
+          this.stats.correct++
+        } else {
+          this.stats.incorrect++
+        }
+        
+      } catch (error) {
+        console.error('Error checking answer:', error)
+        this.error = 'Failed to check answer. Please try again.'
+      } finally {
+        this.checking = false
+      }
+    }
+  }
+}
 </script>
+
 
 <style scoped>
 .quiz-container {
