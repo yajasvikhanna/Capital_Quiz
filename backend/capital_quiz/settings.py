@@ -68,7 +68,7 @@ STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 CORS_ALLOWED_ORIGINS = [
     "http://localhost:5173",  # Local development
     "http://127.0.0.1:5173",
-    "https://capital-quiz-eight.vercel.app/",  # Add your Vercel URL here after frontend deployment
+    "https://capital-quiz-eight.vercel.app",  # Add your Vercel URL here after frontend deployment
 ]
 
 CORS_ALLOW_CREDENTIALS = True
