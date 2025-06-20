@@ -2,6 +2,10 @@
 
 A full-stack web application built with Django (backend) and Vue.js (frontend) that tests knowledge of world capital cities. The app fetches country data from an external API and presents random questions to users.
 
+## Demo Preview
+
+![Capital Quiz Demo](./Captial_Quiz.gif)
+
 ## Features
 
 - Random capital city questions from countries worldwide
