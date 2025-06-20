@@ -2,6 +2,10 @@
 
 A full-stack web application built with Django (backend) and Vue.js (frontend) that tests knowledge of world capital cities. The app fetches country data from an external API and presents random questions to users.
 
+## Live Demo
+
+[Click here to try the app!](https://capital-quiz-eight.vercel.app/)
+
 ## Demo Preview
 
 ![Capital Quiz Demo](./Captial_Quiz.gif)
