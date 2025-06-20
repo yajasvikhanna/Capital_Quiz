@@ -1,8 +1,8 @@
 <template>
   <div id="app">
     <header>
-      <h1>🌍 Sam's Capital Cities Quiz</h1>
-      <p>Test your knowledge of world capitals!</p>
+      <h1>Sam's Capital Cities Quiz</h1>
+      <p>World capitals! Knowledge Test</p>
     </header>
     <main>
       <QuizGame />
@@ -11,14 +11,14 @@
 </template>
 
 <script>
-import QuizGame from './components/QuizGame.vue'
+import QuizGame from "./components/QuizGame.vue";
 
 export default {
-  name: 'App',
+  name: "App",
   components: {
-    QuizGame
-  }
-}
+    QuizGame,
+  },
+};
 </script>
 
 <style>
@@ -26,7 +26,7 @@ export default {
   max-width: 800px;
   margin: 0 auto;
   padding: 20px;
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  font-family: "Segoe UI", Tahoma, Verdana, sans-serif;
 }
 
 header {

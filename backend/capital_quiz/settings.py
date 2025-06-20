@@ -23,7 +23,7 @@ INSTALLED_APPS = [
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
-    'whitenoise.middleware.WhiteNoiseMiddleware',  # Static file serving
+    'whitenoise.middleware.WhiteNoiseMiddleware',
     'corsheaders.middleware.CorsMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -68,7 +68,7 @@ STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 CORS_ALLOWED_ORIGINS = [
     "http://localhost:5173",  # Local development
     "http://127.0.0.1:5173",
-    "https://capital-quiz-eight.vercel.app",  # Add your Vercel URL here after frontend deployment
+    "https://capital-quiz-eight.vercel.app",  # Vercel URL from deployed frontend
 ]
 
 CORS_ALLOW_CREDENTIALS = True

@@ -3,60 +3,67 @@
     <div v-if="loading" class="loading">
       <p>Loading question...</p>
     </div>
-    
+
     <div v-else-if="error" class="error">
       <p>{{ error }}</p>
-      <button @click="loadNewQuestion" class="btn btn-secondary">Try Again</button>
+      <button @click="loadNewQuestion" class="btn btn-secondary">
+        Try Again
+      </button>
     </div>
-    
+
     <div v-else class="quiz-content">
       <div class="question-section">
         <h2>{{ currentQuestion }}</h2>
-        <div class="question-counter">
-          Question {{ questionCount }}
-        </div>
+        <div class="question-counter">Question {{ questionCount }}</div>
       </div>
-      
+
       <div class="input-section">
-        <input 
-          v-model="userAnswer" 
+        <input
+          v-model="userAnswer"
           @keyup.enter="checkAnswer"
           :disabled="showResult"
-          type="text" 
+          type="text"
           placeholder="Enter the capital city..."
           class="answer-input"
           ref="answerInput"
         />
-        <button 
-          @click="checkAnswer" 
+        <button
+          @click="checkAnswer"
           :disabled="!userAnswer.trim() || showResult || checking"
           class="btn btn-primary"
         >
-          {{ checking ? 'Checking...' : 'Check Answer' }}
+          {{ checking ? "Checking..." : "Check Answer" }}
         </button>
       </div>
-      
+
       <div v-if="showResult" class="result-section">
-        <div :class="['result', { 'correct': lastResult.is_correct, 'incorrect': !lastResult.is_correct }]">
+        <div
+          :class="[
+            'result',
+            {
+              correct: lastResult.is_correct,
+              incorrect: !lastResult.is_correct,
+            },
+          ]"
+        >
           <div class="result-icon">
-            {{ lastResult.is_correct ? '✅' : '❌' }}
+            {{ lastResult.is_correct ? "✅" : "❌" }}
           </div>
           <div class="result-text">
-            <h3>{{ lastResult.is_correct ? 'Correct!' : 'Incorrect!' }}</h3>
+            <h3>{{ lastResult.is_correct ? "Correct!" : "Incorrect!" }}</h3>
             <p v-if="!lastResult.is_correct">
-              The correct answer is: <strong>{{ lastResult.correct_answer }}</strong>
+              The correct answer is:
+              <strong>{{ lastResult.correct_answer }}</strong>
             </p>
-            <p v-else>
-              Great job! {{ lastResult.correct_answer }} is correct!
-            </p>
+            <p v-else>Great job! {{ lastResult.correct_answer }} is correct!</p>
           </div>
         </div>
-        
+
         <button @click="loadNewQuestion" class="btn btn-secondary">
           Next Question
         </button>
       </div>
-      
+
       <div class="stats">
         <div class="stat">
           <span class="stat-label">Correct:</span>
@@ -75,110 +82,17 @@
   </div>
 </template>
 
-<!-- <script>
-import axios from 'axios'
-
-export default {
-  name: 'QuizGame',
-  data() {
-    return {
-      currentQuestion: '',
-      currentCountry: null,
-      userAnswer: '',
-      showResult: false,
-      lastResult: null,
-      loading: false,
-      checking: false,
-      error: null,
-      questionCount: 0,
-      stats: {
-        correct: 0,
-        incorrect: 0
-      }
-    }
-  },
-  computed: {
-    accuracy() {
-      const total = this.stats.correct + this.stats.incorrect
-      if (total === 0) return 0
-      return Math.round((this.stats.correct / total) * 100)
-    }
-  },
-  mounted() {
-    this.loadNewQuestion()
-  },
-  methods: {
-    async loadNewQuestion() {
-      this.loading = true
-      this.error = null
-      this.showResult = false
-      this.userAnswer = ''
-      
-      try {
-        const response = await axios.get('/api/question/')
-        this.currentQuestion = response.data.question
-        this.currentCountry = response.data.country
-        this.questionCount++
-        
-        // Focus on input after loading
-        this.$nextTick(() => {
-          if (this.$refs.answerInput) {
-            this.$refs.answerInput.focus()
-          }
-        })
-      } catch (error) {
-        console.error('Error loading question:', error)
-        this.error = 'Failed to load question. Please try again.'
-      } finally {
-        this.loading = false
-      }
-    },
-    
-    async checkAnswer() {
-      if (!this.userAnswer.trim() || !this.currentCountry) return
-      
-      this.checking = true
-      
-      try {
-        const response = await axios.post('/api/check-answer/', {
-          country_id: this.currentCountry.id,
-          user_answer: this.userAnswer.trim()
-        })
-        
-        this.lastResult = response.data
-        this.showResult = true
-        
-        // Update stats
-        if (response.data.is_correct) {
-          this.stats.correct++
-        } else {
-          this.stats.incorrect++
-        }
-        
-      } catch (error) {
-        console.error('Error checking answer:', error)
-        this.error = 'Failed to check answer. Please try again.'
-      } finally {
-        this.checking = false
-      }
-    }
-  }
-}
-</script> -->
-
 <script>
-import axios from 'axios'
-// import { API_ENDPOINTS } from '@/config/api.js'  // Import your api.js
-import { API_ENDPOINTS } from '../config/api.js'
-
+import axios from "axios";
+import { API_ENDPOINTS } from "../config/api.js";
 
 export default {
-  name: 'QuizGame',
+  name: "QuizGame",
   data() {
     return {
-      currentQuestion: '',
+      currentQuestion: "",
       currentCountry: null,
-      userAnswer: '',
+      userAnswer: "",
       showResult: false,
       lastResult: null,
       loading: false,
@@ -187,86 +101,86 @@ export default {
       questionCount: 0,
       stats: {
         correct: 0,
-        incorrect: 0
-      }
-    }
+        incorrect: 0,
+      },
+    };
   },
   computed: {
     accuracy() {
-      const total = this.stats.correct + this.stats.incorrect
-      if (total === 0) return 0
-      return Math.round((this.stats.correct / total) * 100)
-    }
+      const total = this.stats.correct + this.stats.incorrect;
+      if (total === 0) return 0;
+      return Math.round((this.stats.correct / total) * 100);
+    },
   },
   mounted() {
-    this.loadNewQuestion()
+    this.loadNewQuestion();
   },
   methods: {
     async loadNewQuestion() {
-      this.loading = true
-      this.error = null
-      this.showResult = false
-      this.userAnswer = ''
-      
+      this.loading = true;
+      this.error = null;
+      this.showResult = false;
+      this.userAnswer = "";
+
       try {
-        const response = await axios.get(API_ENDPOINTS.QUESTION)  // ✅ use API_ENDPOINTS
-        this.currentQuestion = response.data.question
-        this.currentCountry = response.data.country
-        this.questionCount++
-        
+        const response = await axios.get(API_ENDPOINTS.QUESTION); // API_ENDPOINTS is being used here
+        this.currentQuestion = response.data.question;
+        this.currentCountry = response.data.country;
+        this.questionCount++;
+
         // Focus on input after loading
         this.$nextTick(() => {
           if (this.$refs.answerInput) {
-            this.$refs.answerInput.focus()
+            this.$refs.answerInput.focus();
           }
-        })
+        });
       } catch (error) {
-        console.error('Error loading question:', error)
-        this.error = 'Failed to load question. Please try again.'
+        console.error("Error loading question:", error);
+        this.error = "Failed to load question. Please try again.";
       } finally {
-        this.loading = false
+        this.loading = false;
       }
     },
-    
-    async checkAnswer() {
-      if (!this.userAnswer.trim() || !this.currentCountry) return
-      
-      this.checking = true
-      
-      try {
-        const response = await axios.post(API_ENDPOINTS.CHECK_ANSWER, {   // ✅ use API_ENDPOINTS
-          country_id: this.currentCountry.id,
-          user_answer: this.userAnswer.trim()
-        })
-        
-        this.lastResult = response.data
-        this.showResult = true
-        
-        // Update stats
-        if (response.data.is_correct) {
-          this.stats.correct++
-        } else {
-          this.stats.incorrect++
-        }
-        
-      } catch (error) {
-        console.error('Error checking answer:', error)
-        this.error = 'Failed to check answer. Please try again.'
-      } finally {
-        this.checking = false
-      }
-    }
-  }
-}
-</script>
 
+    async checkAnswer() {
+      if (!this.userAnswer.trim() || !this.currentCountry) return;
+
+      this.checking = true;
+
+      try {
+        const response = await axios.post(API_ENDPOINTS.CHECK_ANSWER, {
+          //Using API_ENDPOINTS here
+          country_id: this.currentCountry.id,
+          user_answer: this.userAnswer.trim(),
+        });
+
+        this.lastResult = response.data;
+        this.showResult = true;
+
+        // Updating state of the stat's section
+        if (response.data.is_correct) {
+          this.stats.correct++;
+        } else {
+          this.stats.incorrect++;
+        }
+      } catch (error) {
+        console.error("Error checking answer:", error);
+        this.error = "Failed to check answer. Please try again.";
+      } finally {
+        this.checking = false;
+      }
+    },
+  },
+};
+</script>
 
 <style scoped>
 .quiz-container {
   min-height: 400px;
 }
 
-.loading, .error {
+.loading,
+.error {
   text-align: center;
   padding: 40px;
 }
@@ -426,12 +340,12 @@ export default {
   .input-section {
     flex-direction: column;
   }
-  
+
   .stats {
     flex-direction: column;
     gap: 15px;
   }
-  
+
   .result {
     flex-direction: column;
     text-align: center;

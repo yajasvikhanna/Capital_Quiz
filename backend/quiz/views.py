@@ -15,14 +15,14 @@ def fetch_and_store_countries():
             data = response.json()
             countries_data = data.get('data', [])
             
-            # Clear existing data and add new
+            # Clear existing data and adding  new data
             Country.objects.all().delete()
             
             for country_data in countries_data:
                 country_name = country_data.get('name', '').strip()
                 capital_city = country_data.get('capital', '').strip()
                 
-                # Skip entries with missing data
+                # Skip entries where data is missing
                 if country_name and capital_city:
                     Country.objects.get_or_create(
                         name=country_name,

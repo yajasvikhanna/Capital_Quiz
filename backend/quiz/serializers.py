@@ -9,7 +9,7 @@ class CountrySerializer(serializers.ModelSerializer):
 class QuizQuestionSerializer(serializers.ModelSerializer):
     class Meta:
         model = Country
-        fields = ['id', 'name']  # Only send country name, not capital
+        fields = ['id', 'name']  # Only send the country name, not  the capitals
 
 class AnswerCheckSerializer(serializers.Serializer):
     country_id = serializers.IntegerField()
